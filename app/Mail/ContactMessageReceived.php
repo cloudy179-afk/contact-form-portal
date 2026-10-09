@@ -14,15 +14,15 @@ class ContactMessageReceived extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(
-        public ContactMessage $contactMessage
-    ) {
+    public function __construct(public ContactMessage $contactMessage)
+    {
     }
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New contact message #' . $this->contactMessage->id,
+            subject: 'New contact message: ' .
+                $this->contactMessage->reference_number,
             replyTo: [
                 new Address(
                     $this->contactMessage->email,
